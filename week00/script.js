@@ -3,9 +3,6 @@ const todoForm = document.getElementById('todo-form');
 const todoList = document.getElementById('todo-list');
 const doneList = document.getElementById('done-list');
 
-let todo = [];
-let done = [];
-
 todoInput.addEventListener('keyup', (e) => {
     if (e.key === "Enter") {
         appendTodo();
