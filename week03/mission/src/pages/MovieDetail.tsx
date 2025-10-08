@@ -1,19 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import type { MovieDetail } from "../types/movie";
+import ErrorMessage from "../components/ErrorMessage";
+import LoadingSpinner from "../components/LodingSpinner";
 
 export default function MovieDetail() {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<any>(null);
-  const [credits, setCredits] = useState<any>(null);
+  const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const movieRes = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+        const response = await axios.get<MovieDetail>(
+          `https://api.themoviedb.org/3/movie/${movieId}?language=en-US&append_to_response=credits`,
           {
             headers: {
               Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
@@ -21,17 +23,7 @@ export default function MovieDetail() {
           }
         );
 
-        const creditsRes = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
-            },
-          }
-        );
-
-        setMovie(movieRes.data);
-        setCredits(creditsRes.data);
+        setMovie(response.data);
       } catch (error) {
         setError("error");
       } finally {
@@ -42,21 +34,10 @@ export default function MovieDetail() {
     fetchData();
   }, [movieId]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-blue-600 border-white"></div>
-      </div>
-    );
-  }
+  if (error) return <ErrorMessage message={error}></ErrorMessage>;
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
-  if (error) {
-    return (
-      <div className="text-red-600 font-semibold text-center mt-10">
-        {error}
-      </div>
-    );
-  }
+  if (!movie) return null;
 
   return (
     <div className="p-6">
@@ -75,11 +56,11 @@ export default function MovieDetail() {
         </div>
       </div>
 
-      {credits && (
+      {movie.credits && (
         <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-4">감독/출연</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-            {credits.cast.slice(0, 10).map((person: any) => (
+            {movie.credits.cast.slice(0, 10).map((person: any) => (
               <div key={person.id} className="text-center">
                 <img
                   src={

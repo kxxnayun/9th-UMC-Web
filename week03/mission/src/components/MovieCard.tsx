@@ -9,7 +9,7 @@ interface MovieCardPorps {
 export default function MovieCard({ movie }: MovieCardPorps) {
   const [isHovered, setIsHoverd] = useState(false);
   const navigate = useNavigate();
-  const Detail = () => {
+  const gotoDetailPage = () => {
     navigate(`/movie/${movie.id}`);
   };
 
@@ -19,7 +19,7 @@ export default function MovieCard({ movie }: MovieCardPorps) {
       w-44 transition-transform duration-500 hover:scale-105"
       onMouseEnter={() => setIsHoverd(true)}
       onMouseLeave={() => setIsHoverd(false)}
-      onClick={Detail}
+      onClick={gotoDetailPage}
     >
       <img
         src={`http://image.tmdb.org/t/p/w200${movie.poster_path}`}

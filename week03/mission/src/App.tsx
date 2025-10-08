@@ -6,7 +6,7 @@ import Popular from "./pages/Popular";
 import Upcoming from "./pages/Upcoming";
 import TopRated from "./pages/TopRated";
 import NowPlaying from "./pages/NowPlaying";
-import MovieDetail from "./pages/movieDetail";
+import MovieDetail from "./pages/MovieDetail";
 
 function App() {
   console.log(import.meta.env.VITE_TMDB_KEY);

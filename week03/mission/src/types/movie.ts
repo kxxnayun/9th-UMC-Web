@@ -1,5 +1,5 @@
 export type Movie = {
-  adult: false;
+  adult: boolean;
   backdrop_path: string;
   genre_ids: number;
   id: number;
@@ -8,7 +8,7 @@ export type Movie = {
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: number;
+  release_date: string;
   title: string;
   video: boolean;
   vote_average: number;
@@ -23,6 +23,28 @@ export type MovieResponse = {
 };
 
 export type MoviePageProps = {
-  token: string;
   category: string;
+};
+
+export type Cast = {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+};
+
+export type Crew = {
+  id: number;
+  name: string;
+  job: string;
+  profile_path: string | null;
+};
+
+export type Credits = {
+  cast: Cast[];
+  crew: Crew[];
+};
+
+export type MovieDetail = Movie & {
+  credits: Credits;
 };
