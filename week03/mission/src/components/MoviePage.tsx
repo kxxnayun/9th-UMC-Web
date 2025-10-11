@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import type { Movie, MovieResponse, MoviePageProps } from "../types/movie";
 import MovieCard from "./MovieCard";
-import LoadingSpinner from "./LodingSpinner";
+import LoadingSpinner from "./LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 
 const TMBD_TOKEN = import.meta.env.VITE_TMDB_KEY;

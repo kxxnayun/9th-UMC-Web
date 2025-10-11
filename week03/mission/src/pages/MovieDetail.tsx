@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type { MovieDetail } from "../types/movie";
+import type { Cast, MovieDetail } from "../types/movie";
 import ErrorMessage from "../components/ErrorMessage";
-import LoadingSpinner from "../components/LodingSpinner";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function MovieDetail() {
   const { movieId } = useParams();
@@ -24,7 +24,7 @@ export default function MovieDetail() {
         );
 
         setMovie(response.data);
-      } catch (error) {
+      } catch {
         setError("error");
       } finally {
         setIsLoading(false);
@@ -60,7 +60,7 @@ export default function MovieDetail() {
         <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-4">감독/출연</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-            {movie.credits.cast.slice(0, 10).map((person: any) => (
+            {movie.credits.cast.slice(0, 10).map((person: Cast) => (
               <div key={person.id} className="text-center">
                 <img
                   src={
